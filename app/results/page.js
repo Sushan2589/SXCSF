@@ -1,62 +1,68 @@
-"use client"
+"use client";
 
-import React, { useEffect,useState, useMemo } from 'react';
-import { ArrowLeft } from 'lucide-react';
-
+import React, { useEffect, useState, useMemo } from "react";
+import { ArrowLeft } from "lucide-react";
 
 const Results = () => {
-  const [participants, setParticipants] = useState([])
-  const [searchTerm, setSearchTerm] = useState('');
+  const [participants, setParticipants] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [activeRound, setActiveRound] = useState(1);
-  
+  const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchParticipants = async () => {
-      
-      const res = await fetch("/api/participants");
-      const data = await res.json();
+      setLoading(true);
+      try {
+        const res = await fetch("/api/participants");
+        const data = await res.json();
         setParticipants(data);
-      
+      } catch (e) {
+        console.error("Error fetching participants:", error);
+        setParticipants([]);
+      } finally {
+        setLoading(false); // Done loading
+      }
     };
 
     fetchParticipants();
   }, []);
 
- 
-
-
-
-  
-
-
   const filteredParticipants = useMemo(() => {
-    let filtered = participants.filter(participant => participant.round === activeRound);
-    
+    let filtered = participants.filter(
+      (participant) => participant.round === activeRound
+    );
+
     if (searchTerm) {
-      filtered = filtered.filter(participant => 
-        participant.teamCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        participant.school.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (participant) =>
+          participant.team_code
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          participant.school.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    
+
     return filtered;
   }, [searchTerm, activeRound, participants]);
 
-
   const highlightText = (text, highlight) => {
     if (!highlight) return text;
-    
-    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-    return parts.map((part, index) => 
-      part.toLowerCase() === highlight.toLowerCase() ? 
-        <span key={index} className="bg-yellow-400 text-black px-1 rounded">{part}</span> : 
+
+    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+    return parts.map((part, index) =>
+      part.toLowerCase() === highlight.toLowerCase() ? (
+        <span key={index} className="bg-yellow-400 text-black px-1 rounded">
+          {part}
+        </span>
+      ) : (
         part
+      )
     );
   };
 
   const rounds = [1, 2, 3];
 
-  return  (
+  return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
       <div className="flex items-center px-4 py-4 border-b border-gray-700">
@@ -84,7 +90,6 @@ const Results = () => {
           </div>
         </div>
 
-        
         <div className="flex space-x-0 mb-8">
           {rounds.map((round) => (
             <button
@@ -92,8 +97,8 @@ const Results = () => {
               onClick={() => setActiveRound(round)}
               className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                 activeRound === round
-                  ? 'border-white text-white'
-                  : 'border-gray-700 text-gray-400 hover:text-gray-300'
+                  ? "border-white text-white"
+                  : "border-gray-700 text-gray-400 hover:text-gray-300"
               }`}
             >
               Round {round}
@@ -113,37 +118,45 @@ const Results = () => {
                 <div className="bg-gray-700 text-white text-xs font-medium px-3 py-1 rounded-full">
                   Round {participant.round}
                 </div>
-                
+
                 <div>
                   <h3 className="text-white font-medium text-lg mb-1">
-                    {highlightText(participant.teamCode, searchTerm)}
+                    {highlightText(participant.team_code, searchTerm)}
                   </h3>
                   <p className="text-gray-400 text-sm">
                     {highlightText(participant.school, searchTerm)}
                   </p>
                 </div>
               </div>
-              
+
               <div className="text-right">
-                <span className={`text-sm font-medium ${
-                  participant.selected 
-                    ? 'text-green-400' 
-                    : 'text-red-400'
-                }`}>
-                  {participant.selected ? 'Selected' : 'Eliminated'}
+                <span
+                  className={`text-sm font-medium ${
+                    participant.selected ? "text-green-400" : "text-red-400"
+                  }`}
+                >
+                  {participant.selected ? "Selected" : "Eliminated"}
                 </span>
               </div>
             </div>
           ))}
         </div>
-        
-       
 
-        {filteredParticipants.length === 0 && (
+        {loading && (
+          <div className="text-center py-12 text-gray-400">
+            Loading participants...
+          </div>
+        )}
+
+        {filteredParticipants.length === 0 && !loading && (
           <div className="text-center py-12">
             <div className="text-gray-600 mb-4">🔍</div>
-            <h3 className="text-lg font-medium text-gray-300 mb-2">No results found</h3>
-            <p className="text-gray-500">Try searching with different team codes or check other rounds.</p>
+            <h3 className="text-lg font-medium text-gray-300 mb-2">
+              No results found
+            </h3>
+            <p className="text-gray-500">
+              Try searching with different team codes or check other rounds.
+            </p>
           </div>
         )}
 
@@ -153,8 +166,10 @@ const Results = () => {
             <div className="flex justify-between text-sm text-gray-400">
               <span>Total Teams: {filteredParticipants.length}</span>
               <span>
-                Selected: {filteredParticipants.filter(p => p.selected).length} | 
-                Eliminated: {filteredParticipants.filter(p => !p.selected).length}
+                Selected:{" "}
+                {filteredParticipants.filter((p) => p.selected).length} |
+                Eliminated:{" "}
+                {filteredParticipants.filter((p) => !p.selected).length}
               </span>
             </div>
           </div>
