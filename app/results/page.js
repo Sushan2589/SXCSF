@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 const Results = () => {
   const [participants, setParticipants] = useState([]);
@@ -106,41 +107,42 @@ const Results = () => {
           ))}
         </div>
 
-        {/* Results List */}
-        <div className="space-y-4">
-          {filteredParticipants.map((participant) => (
-            <div
-              key={participant.id}
-              className="flex items-center justify-between py-4 border-b border-gray-800 last:border-b-0"
-            >
-              <div className="flex items-center space-x-4">
-                {/* Round Bubble */}
-                <div className="bg-gray-700 text-white text-xs font-medium px-3 py-1 rounded-full">
-                  Round {participant.round}
-                </div>
-
-                <div>
-                  <h3 className="text-white font-medium text-lg mb-1">
-                    {highlightText(participant.team_code, searchTerm)}
-                  </h3>
-                  <p className="text-gray-400 text-sm">
-                    {highlightText(participant.school, searchTerm)}
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-right">
-                <span
-                  className={`text-sm font-medium ${
-                    participant.selected ? "text-green-400" : "text-red-400"
-                  }`}
-                >
-                  {participant.selected ? "Selected" : "Eliminated"}
-                </span>
-              </div>
-            </div>
-          ))}
+        
+       {/* Results List */}
+<div className="space-y-4">
+  {filteredParticipants.map((participant) => (
+    <Link
+      key={participant.id}
+      href={`/teams/${participant.team_code}`}
+      className="flex items-center justify-between py-4 border-b border-gray-800 last:border-b-0 hover:bg-gray-800 transition"
+    >
+      <div className="flex items-center space-x-4">
+        <div className="bg-gray-700 text-white text-xs font-medium px-3 py-1 rounded-full">
+          Round {participant.round}
         </div>
+        <div>
+          <h3 className="text-white font-medium text-lg mb-1">
+            {highlightText(participant.team_code, searchTerm)}
+          </h3>
+          <p className="text-gray-400 text-sm">
+            {highlightText(participant.school, searchTerm)}
+          </p>
+        </div>
+      </div>
+
+      <div className="text-right">
+        <span
+          className={`text-sm font-medium ${
+            participant.selected ? "text-green-400" : "text-red-400"
+          }`}
+        >
+          {participant.selected ? "Selected" : "Eliminated"}
+        </span>
+      </div>
+    </Link>
+  ))}
+</div>
+
 
         {loading && (
           <div className="text-center py-12 text-gray-400">
