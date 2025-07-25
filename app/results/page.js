@@ -66,13 +66,15 @@ const Results = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Header */}
-      <div className="flex items-center px-4 py-4 border-b border-gray-700">
-        <ArrowLeft className="w-6 h-6 mr-4 text-gray-400" />
-        <div>
-          <div className="text-xs text-gray-400 mb-1">Stitch Design</div>
-          <h1 className="text-lg font-medium">SXC Science Fest</h1>
+      <Link href={"/"}>
+        <div className="flex items-center px-4 py-4 border-b border-gray-700">
+          <ArrowLeft className="w-6 h-6 mr-4 text-gray-400" />
+
+          <div>
+            <h1 className="text-lg font-medium">SXC Science Fest</h1>
+          </div>
         </div>
-      </div>
+      </Link>
 
       <div className="px-4 py-6">
         {/* Scores Title */}
@@ -107,42 +109,40 @@ const Results = () => {
           ))}
         </div>
 
-        
-       {/* Results List */}
-<div className="space-y-4">
-  {filteredParticipants.map((participant) => (
-    <Link
-      key={participant.id}
-      href={`/teams/${participant.team_code}`}
-      className="flex items-center justify-between py-4 border-b border-gray-800 last:border-b-0 hover:bg-gray-800 transition"
-    >
-      <div className="flex items-center space-x-4">
-        <div className="bg-gray-700 text-white text-xs font-medium px-3 py-1 rounded-full">
-          Round {participant.round}
-        </div>
-        <div>
-          <h3 className="text-white font-medium text-lg mb-1">
-            {highlightText(participant.team_code, searchTerm)}
-          </h3>
-          <p className="text-gray-400 text-sm">
-            {highlightText(participant.school, searchTerm)}
-          </p>
-        </div>
-      </div>
+        {/* Results List */}
+        <div className="space-y-4">
+          {filteredParticipants.map((participant) => (
+            <Link
+              key={participant.id}
+              href={`/teams/${participant.team_code}`}
+              className="flex items-center justify-between py-4 border-b border-gray-800 last:border-b-0 hover:bg-gray-800 transition"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="bg-gray-700 text-white text-xs font-medium px-3 py-1 rounded-full">
+                  Round {participant.round}
+                </div>
+                <div>
+                  <h3 className="text-white font-medium text-lg mb-1">
+                    {highlightText(participant.team_code, searchTerm)}
+                  </h3>
+                  <p className="text-gray-400 text-sm">
+                    {highlightText(participant.school, searchTerm)}
+                  </p>
+                </div>
+              </div>
 
-      <div className="text-right">
-        <span
-          className={`text-sm font-medium ${
-            participant.selected ? "text-green-400" : "text-red-400"
-          }`}
-        >
-          {participant.selected ? "Selected" : "Eliminated"}
-        </span>
-      </div>
-    </Link>
-  ))}
-</div>
-
+              <div className="text-right">
+                <span
+                  className={`text-sm font-medium ${
+                    participant.selected ? "text-green-400" : "text-red-400"
+                  }`}
+                >
+                  {participant.selected ? "Selected" : "Eliminated"}
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
 
         {loading && (
           <div className="text-center py-12 text-gray-400">
