@@ -29,7 +29,7 @@ const ImageSlider = () => {
             key={index}
             src={img}
             alt={`Slide ${index}`}
-            className="w-full flex-shrink-0 object-cover"
+            className="w-full h-full flex-shrink-0 object-cover"
           />
         ))}
       </div>
