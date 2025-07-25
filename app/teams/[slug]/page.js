@@ -1,9 +1,11 @@
+import { getBaseUrl } from "@/lib/getBaseUrl";
+
 export default async function TeamPage(props) {
   const { slug } = await props.params;
 
   if (!slug) return <div>Team not found</div>;
 
-  const res = await fetch("http://localhost:3000/api/participants");
+  const res = await fetch(`${getBaseUrl()}/api/participants`);
   if (!res.ok) {
     throw new Error("Failed to fetch participants");
   }
