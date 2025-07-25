@@ -5,7 +5,9 @@ export default async function TeamPage(props) {
 
   if (!slug) return <div>Team not found</div>;
 
-  const res = await fetch(`${getBaseUrl()}/api/participants`);
+ const res = await fetch(`${getBaseUrl()}/api/participants`, {
+  cache: "no-store", 
+});
   if (!res.ok) {
     throw new Error("Failed to fetch participants");
   }
