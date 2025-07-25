@@ -30,11 +30,11 @@ const SXCSFHome = () => {
             About the Science Fest
           </h2>
           <p className="text-lg md:text-xl leading-relaxed text-gray-300">
-            St. Xavier’s College Science Fest is an annual celebration of
+            St. Xavier&apos;s College Science Fest is an annual celebration of
             innovation, creativity, and curiosity. It brings together brilliant
             minds from schools and colleges to showcase scientific experiments,
             technical projects, research ideas, and creative problem-solving.
-            Whether you're here to present, explore, or be inspired — this fest
+            Whether you&apos;re here to present, explore, or be inspired — this fest
             is where learning meets excitement.
           </p>
         </div>
