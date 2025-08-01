@@ -1,73 +1,86 @@
-"use client";
-import React, { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-
-const images = ["/images/1.png", "/images/A.png", "/images/3.png"];
+import React, { useState, useEffect } from 'react';
 
 const ImageSlider = () => {
-    const router = useRouter();
-  const [current, setCurrent] = useState(0);
-  const containerRef = useRef(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      image: 'https://images.pexels.com/photos/2280547/pexels-photo-2280547.jpeg',
+      title: 'Hands-on Experiments',
+      description: 'Students engage in practical laboratory experiments, applying theoretical knowledge to real-world scenarios.'
+    },
+    {
+      image: 'https://images.pexels.com/photos/8471831/pexels-photo-8471831.jpeg',
+      title: 'Team Collaboration',
+      description: 'Participants work together to solve complex scientific challenges, fostering teamwork and communication skills.'
+    },
+    {
+      image: 'https://i.ibb.co/FbxRHrqd/image.png',
+      title: 'Scientific Presentations',
+      description: 'Students present their research findings and innovative solutions to panels of expert judges.'
+    },
+    {
+      image: 'https://images.pexels.com/photos/8471832/pexels-photo-8471832.jpeg',
+      title: 'Recognition & Awards',
+      description: 'Outstanding participants receive recognition for their achievements and contributions to science.'
+    },
+    {
+      image: 'https://i.ibb.co/ksQzVVpS/sdm.png',
+      title: 'Innovation Showcase',
+      description: 'Students display their creative projects and innovative solutions to scientific problems.'
+    }
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000);
-
+    const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
-      <div
-        ref={containerRef}
-        className="flex h-full transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${current * 100}%)` }}
-      >
-        {images.map((img, index) => (
-          <img
+    <section className="slider-section">
+      <h2 className="section-title" style={{textAlign: 'center', marginBottom: '2rem'}}>Event Highlights</h2>
+      <div className="slider-container">
+        <div className="slider">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`slide ${index === currentSlide ? 'active' : ''}`}
+            >
+              <img src={slide.image} alt={slide.title} />
+              <div className="slide-overlay">
+                <h3 className="slide-title">{slide.title}</h3>
+                <p className="slide-description">{slide.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <button className="slider-nav prev" onClick={prevSlide}>&#10094;</button>
+        <button className="slider-nav next" onClick={nextSlide}>&#10095;</button>
+      </div>
+      
+      <div className="slider-dots">
+        {slides.map((_, index) => (
+          <span
             key={index}
-            src={img}
-            alt={`Slide ${index}`}
-            className="w-full h-full flex-shrink-0 object-cover"
+            className={`dot ${index === currentSlide ? 'active' : ''}`}
+            onClick={() => goToSlide(index)}
           />
         ))}
       </div>
-
-      {/* Overlay text */}
-      <div className="absolute inset-0 z-10 bg-black/40 flex items-center justify-center pointer-events-none">
-        <div className="text-center text-white px-4">
-          <h1
-            className="text-white text-3xl md:text-5xl font-bold mb-2"
-            style={{ textShadow: "0 2px 8px rgba(0, 0, 0, 0.6)" }}
-          >
-            Welcome to SXCSF
-          </h1>
-          <p className="text-white max-w-xl mx-auto">
-            Dive into the world of{" "}
-            <span className="text-amber-400 font-semibold">innovation</span>,
-            discovery, and student-powered creativity.
-          </p>
-
-          <div className="flex justify-center gap-4 mt-4 flex-wrap">
-            <div className="text-center text-white px-4 flex gap-3 pointer-events-auto">
-              <button
-                className="min-w-[120px] rounded-xl bg-[#FFD700] text-[#161512] px-6 py-2 font-bold tracking-wide hover:bg-[#e0d9c7] transition cursor-pointer"
-                onClick={() => alert("Get Started clicked")}
-              >
-                Get Started
-              </button>
-              <button
-                className="cursor-pointer min-w-[120px] rounded-xl bg-[#35332c] text-white px-6 py-2 font-bold tracking-wide hover:bg-[#4a493e] transition"
-                onClick={() => router.push("/results")}
-              >
-                View Results
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 };
 
