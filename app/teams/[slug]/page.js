@@ -1,3 +1,4 @@
+
 import { getBaseUrl } from "@/lib/getBaseUrl";
 
 export default async function TeamPage(props) {

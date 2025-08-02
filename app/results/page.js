@@ -18,7 +18,7 @@ const Results = () => {
         const data = await res.json();
         setParticipants(data);
       } catch (e) {
-        console.error("Error fetching participants:", error);
+        console.error("Error fetching participants:", e);
         setParticipants([]);
       } finally {
         setLoading(false); // Done loading
@@ -112,7 +112,7 @@ const Results = () => {
         {/* Results List */}
         <div className="space-y-4">
           {filteredParticipants.map((participant) => (
-            <Link
+            <a
               key={participant.id}
               href={`/teams/${participant.team_code}`}
               className="flex items-center justify-between py-4 border-b border-gray-800 last:border-b-0 hover:bg-gray-800 transition"
@@ -140,7 +140,7 @@ const Results = () => {
                   {participant.selected ? "Selected" : "Eliminated"}
                 </span>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
 
