@@ -1,12 +1,9 @@
 "use client"
 import React from "react";
-import ImageSlider from "./ImageSlider";
 import HomeImageSlider from "./HomeImageSlider";
-import { useState } from "react";
 
 
 const Home = ({ onNavigate }) => {
-  const [isVisible, setIsVisible] = useState(false);
   const handleRegister = () => {
     alert("Registration portal will open soon! Stay tuned for updates.");
   };
