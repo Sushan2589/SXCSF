@@ -8,7 +8,6 @@ const Footer = () => {
           <div className="footer-section">
             <h3>Quick Links</h3>
             <ul>
-              <li><a href="#facebook">Facebook</a></li>
               <li><a href="https://www.instagram.com/science.fest/">Instagram</a></li>
               
             </ul>
@@ -26,7 +25,7 @@ const Footer = () => {
             <h3>Event Info</h3>
             <ul>
               <li>Registration: Open</li>
-              <li>Venue: SXC College Maitighar</li>
+              <li>Venue: St Xavier's College Maitighar</li>
              
             </ul>
           </div>

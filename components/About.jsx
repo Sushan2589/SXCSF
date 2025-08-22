@@ -16,7 +16,7 @@ const About = () => {
           <div className="about-text">
             <h2 className="section-title">Our Mission</h2>
             <p>
-              The <span className="highlight">SXC Science Fest</span> is Nepal's premier inter-school science competition, designed to ignite curiosity, foster innovation, and celebrate the brilliant minds of tomorrow. Since our inception, we have been committed to providing a platform where students can showcase their scientific knowledge, creativity, and problem-solving skills.
+              The <span className="highlight">SXC Science Fest</span> is Nepal's premium inter-school science competition, designed to ignite curiosity, foster innovation, and celebrate the brilliant minds of tomorrow. Since our inception, we have been committed to providing a platform where students can showcase their scientific knowledge, creativity, and problem-solving skills.
             </p>
             <p>
               Our festival brings together the brightest young minds from across Nepal, creating an environment where <span className="highlight">collaboration meets competition</span>, and where learning transcends traditional classroom boundaries.
